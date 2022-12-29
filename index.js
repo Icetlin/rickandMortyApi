@@ -1,7 +1,5 @@
-const fetchCharsFromApiUrl = async (url) => {
-    const response = await fetch(url);
-    return await response.json();
-};
+import fetchCharsFromApiUrl from './fetchCharsFromApi.js'
+
 
 const createPagingButtons = (
     onNextPageClick,
