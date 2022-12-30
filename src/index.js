@@ -1,6 +1,6 @@
-import fetchCharsFromApiUrl from './fetchCharsFromApi.js'
-import createPagingButtons from './createPagingButtons.js'
-import createCharsTable from './createCharsTable.js'
+import fetchCharsFromApiUrl from './api/fetchCharsFromApi.js'
+import createPagingButtons from './js/createPagingButtons.js'
+import createCharsTable from './js/createCharsTable.js'
 
 (async () => {
     let chars = {};
