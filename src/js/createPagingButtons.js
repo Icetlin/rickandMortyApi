@@ -1,4 +1,4 @@
-export const createPagingButtons = (
+export default (
     onNextPageClick,
     onPrevPageClick, 
     nextName = 'next',

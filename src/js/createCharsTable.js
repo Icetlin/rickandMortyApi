@@ -1,4 +1,4 @@
-export const createCharsTable = (chars) => {
+export default (chars) => {
     const charsTable = document.createElement('table');
     const charsTableBody = document.createElement('tbody');
 
