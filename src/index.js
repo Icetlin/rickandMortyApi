@@ -1,12 +1,13 @@
 import fetchCharsFromApiUrl from './api/fetchCharsFromApi.js'
 import createPagingButtons from './js/createPagingButtons.js'
 import createCharsTable from './js/createCharsTable.js'
-
 (async () => {
     let chars = {};
 
     const tablePlaceEl = document.querySelector('#table-place');
     const buttonsPlaceEl = document.querySelectorAll('.buttons-place');
+    
+    
 
     const render = async(page) => {
         chars = await fetchCharsFromApiUrl(page);
@@ -15,6 +16,7 @@ import createCharsTable from './js/createCharsTable.js'
 
         tablePlaceEl.querySelector('table')?.remove();
         tablePlaceEl.appendChild(table);
+        
     }
      
 
