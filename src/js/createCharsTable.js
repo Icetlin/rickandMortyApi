@@ -1,7 +1,6 @@
 export default (chars, clickAction) => {
     const charsTable = document.createElement('table');
     const charsTableBody = document.createElement('tbody');
-    
 
     for(let i = 0; i <= chars.results.length - 1; i++){
         let charsTableRow = document.createElement('tr')

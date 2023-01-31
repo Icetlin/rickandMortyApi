@@ -20,10 +20,10 @@ import {renderClicksOnChars} from './js/renderClicksOnChars.js'
 
     const [nextPageButton, prevPageButton] = createPagingButtons(() => {
         render(chars.info.next);
-        //changePageNumber('next')
+        
     }, () => {
         render(chars.info.prev);
-        //changePageNumber('prev')
+       
     })
 
     document.body.appendChild(prevPageButton);

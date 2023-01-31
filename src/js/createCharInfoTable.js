@@ -1,13 +1,14 @@
 import { createBackButton } from "./createBackButton";
-export default (chars, charId) => {
+import {backButtonAction} from './backButtonAction'
+export default (chars, charId, page) => {
 
     const charInfoTable = document.createElement('table');
     const charInfoTableBody = document.createElement('tbody');
     let currentCharObject;
-    
     const backButton = createBackButton(() => {
-        alert('x')
-    }, 'back to list')
+        backButtonAction(page)
+    }, 
+    'back to list')
     document.body.append(backButton);
 
     for(let objectId = 0; objectId <= chars.results.length - 1; objectId++){ //get clicked char info
@@ -15,7 +16,7 @@ export default (chars, charId) => {
             currentCharObject = chars.results[objectId]
         }
     }
-   // console.log(currentCharObject)
+
     for(const [key, value] of Object.entries(currentCharObject)){ // fill char info table
 
         let charInfoTableRow = document.createElement('tr');
