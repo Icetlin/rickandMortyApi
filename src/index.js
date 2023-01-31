@@ -4,8 +4,9 @@ import createCharsTable from './js/createCharsTable.js'
 import {onClickOrigin} from './js/charsOriginOnClick.js'
 import {renderClicksOnChars} from './js/renderClicksOnChars.js'
 import {createBackButton} from './js/createBackButton.js'
+import {charsPageRender} from './js/charsPageRender.js'
 (async () => {
-
+    //x 
     let chars = {};
     
     const render = async(page) => {
