@@ -9,16 +9,18 @@ import {charsPageRender} from './js/charsPageRender.js'
     //x 
     let chars = {};
     
-    const render = async(page) => {
-        chars = await fetchCharsFromApiUrl(page);
+    // const render = async(page) => {
+    //     chars = await fetchCharsFromApiUrl(page);
 
-        const table = createCharsTable(chars, onClickOrigin);
+    //     const table = createCharsTable(chars, onClickOrigin);
 
-        document.body.querySelector('table')?.remove();
-        document.body.append(table)
+    //     document.body.querySelector('table')?.remove();
+    //     document.body.append(table)
         
-        history.replaceState(null, '', `/?page=${document.body.querySelector('table').dataset.originApiPage}`)
-    }
+    //     history.replaceState(null, '', `/?page=${document.body.querySelector('table').dataset.originApiPage}`)
+    // }
+    chars = await fetchCharsFromApiUrl(page);
+    charsPageRender(chars);
 
     const [nextPageButton, prevPageButton] = createPagingButtons(() => {
         render(chars.info.next);
@@ -31,7 +33,7 @@ import {charsPageRender} from './js/charsPageRender.js'
     
          
     if (window.location.toString() === 'http://localhost:7777/page1' && !window.location.toString().includes('id') || window.location.toString() === 'http://localhost:7777/'){ // render main page
-        render('https://rickandmortyapi.com/api/character'); 
+        charsPageRender('https://rickandmortyapi.com/api/character'); 
         
 
     } // main page render
