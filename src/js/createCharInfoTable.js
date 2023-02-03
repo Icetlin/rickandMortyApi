@@ -1,12 +1,11 @@
 import { createBackButton } from "./createBackButton";
-import {backButtonAction} from './backButtonAction'
 export default (chars, charId, page) => {
 
     const charInfoTable = document.createElement('table');
     const charInfoTableBody = document.createElement('tbody');
     let currentCharObject;
     const backButton = createBackButton(() => {
-        backButtonAction(page)
+        window.history.back()
     }, 
     'back to list')
     document.body.append(backButton);

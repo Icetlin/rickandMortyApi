@@ -5,6 +5,6 @@ export const charsPageRender = (chars) => {
     document.body.querySelector('table')?.remove();
     document.body.append(table)
 
-    history.replaceState(null, '', `/?page=${document.body.querySelector('table').dataset.originApiPage}`)
+    history.replaceState(null, '', `?page=${document.body.querySelector('table').dataset.originApiPage}`)
 
 }
