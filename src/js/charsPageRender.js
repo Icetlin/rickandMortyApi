@@ -1,4 +1,4 @@
-import {onClickOrigin} from './charsOriginOnClick'
+import {onClickOrigin} from './charsOriginOnClick.js'
 import createCharsTable from './createCharsTable.js'
 export const charsPageRender = (chars) => {
     const table = createCharsTable(chars, onClickOrigin);

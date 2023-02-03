@@ -1,3 +1,4 @@
+import {createOriginApiPage} from './createOriginApiPage.js'
 export default (chars, clickAction) => {
     const charsTable = document.createElement('table');
     const charsTableBody = document.createElement('tbody');
@@ -9,11 +10,9 @@ export default (chars, clickAction) => {
         charsTableRow.addEventListener('click', clickAction)
         charsTableBody.append(charsTableRow)
     }
-    
-    const nextPageUrl = new URL(chars.info.next);
-    const nextPageNumber = new URLSearchParams(nextPageUrl.search).get('page');
-    const currentPageNumber = (Number(nextPageNumber) - 1).toString();
-    charsTable.dataset.originApiPage = currentPageNumber
+
+    const currentPageNumber = createOriginApiPage(chars.info.next, chars.info.pages);
+    charsTable.dataset.originApiPage = currentPageNumber;
 
     charsTable.append(charsTableBody) 
     return charsTable
