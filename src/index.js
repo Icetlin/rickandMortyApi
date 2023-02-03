@@ -14,9 +14,12 @@ import {charsPageRender} from './js/charsPageRender.js'
     const [nextPageButton, prevPageButton] = createPagingButtons(async() => {
         chars = await fetchCharsFromApiUrl(chars.info.next);
         charsPageRender(chars);
+        history.replaceState(null, '', `?page=${document.body.querySelector('table').dataset.originApiPage}`)
+
     }, async() => {
         chars = await fetchCharsFromApiUrl(chars.info.prev);
         charsPageRender(chars);
+        history.replaceState(null, '', `?page=${document.body.querySelector('table').dataset.originApiPage}`)
     }) //set buttons action
 
 
@@ -25,6 +28,8 @@ import {charsPageRender} from './js/charsPageRender.js'
         document.body.appendChild(prevPageButton); 
         document.body.appendChild(nextPageButton);
         charsPageRender(chars); 
+        history.replaceState(null, '', `?page=${document.body.querySelector('table').dataset.originApiPage}`)
+
     }
 
     const goToCharInfo = () => {
@@ -33,8 +38,7 @@ import {charsPageRender} from './js/charsPageRender.js'
         let currentCharId = currentUrlSearchParams.get('id').toString(); 
         let backButton = createBackButton(() => {
         window.history.back()
-        }, 
-        'back to list');
+        }, 'back to list');
         document.body.append(backButton);
         renderClicksOnChars(`https://rickandmortyapi.com/api/character?page=${currentCharPage}`, currentCharId);
     }
@@ -44,11 +48,16 @@ import {charsPageRender} from './js/charsPageRender.js'
 
 
     window.addEventListener('popstate', async function (){
-       const currentUrl = window.location.toString();
-       if(!currentUrl.includes('id')){
+        let pageUrl = window.location;
+        let pageSearch = pageUrl.search;
+        let currentUrl = window.location.toString();
+        if(!currentUrl.includes('id')){
         document.getElementById('backButton')?.remove();
         document.body.querySelector('table')?.remove();
-        goToCharList();
+        chars = await fetchCharsFromApiUrl(`https://rickandmortyapi.com/api/character${pageSearch}`);
+        document.body.appendChild(prevPageButton); 
+        document.body.appendChild(nextPageButton);
+        charsPageRender(chars); // back button action
        }
     })
 
