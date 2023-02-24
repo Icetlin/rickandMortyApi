@@ -6,6 +6,8 @@ export const renderClicksOnChars = async(page, charId) => {
 
     document.body.querySelector('table')?.remove();
     document.body.querySelectorAll('button').forEach(element => element.remove());
+    document.getElementById('goToPageForm')?.remove()
+
 
 
     const table = createCharInfoTable(chars, charId, page);

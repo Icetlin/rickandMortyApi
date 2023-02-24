@@ -1,4 +1,4 @@
-import {renderClicksOnChars } from "./renderClicksOnChars.js";
+import {renderClicksOnChars} from "./renderClicksOnChars.js";
 export const onClickOrigin = (event) => {
 
     const charId = event.currentTarget.dataset.charId
