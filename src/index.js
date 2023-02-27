@@ -3,67 +3,71 @@ import createPagingButtons from './js/createPagingButtons.js'
 import {renderClicksOnChars} from './js/renderClicksOnChars.js'
 import {createBackButton} from './js/createBackButton.js'
 import {charsPageRender} from './js/charsPageRender.js'
-import {backButtonAction} from './js/backButtonAction.js'
+import {createGoToPageForm} from './js/createGoToPageForm.js'
+import css from './css/style.css'
 
 (async () => {
      
     let chars = {};
-
+    let pageUrl = window.location;
+    let pageLocation = pageUrl.toString();
+    let pageSearch = pageUrl.search;
+    
     const [nextPageButton, prevPageButton] = createPagingButtons(async() => {
-        chars = await fetchCharsFromApiUrl(chars.info.next)
-        document.body.querySelector('button')?.remove()
-        document.body.querySelector('button')?.remove()
-        document.body.appendChild(prevPageButton);
-        if(Number((new URLSearchParams(window.location.search)).get('page')) !== (chars.info.pages)){
-            document.body.appendChild(nextPageButton); 
-        }
+        chars = await fetchCharsFromApiUrl(chars.info.next);
         charsPageRender(chars);
+        let pageNumber = document.body.querySelector('table').dataset.originApiPage
+        history.replaceState(null, '', `?page=${pageNumber}`)
+        document.getElementById('inputFieldGoToPage').placeholder = `page ${pageNumber} of ${chars.info.pages}`
     }, async() => {
         chars = await fetchCharsFromApiUrl(chars.info.prev);
-        document.body.querySelector('button')?.remove()
-        document.body.querySelector('button')?.remove()
-        if(Number((new URLSearchParams(window.location.search)).get('page')) !== 1){
-            document.body.appendChild(prevPageButton); 
-        }
-        document.body.appendChild(nextPageButton); 
         charsPageRender(chars);
+        let pageNumber = document.body.querySelector('table').dataset.originApiPage
+        history.replaceState(null, '', `?page=${pageNumber}`)
+        document.getElementById('inputFieldGoToPage').placeholder = `page ${pageNumber} of ${chars.info.pages}`
+    }) //set buttons action
+
+    const goToCharsList = async () => {
+        chars = await fetchCharsFromApiUrl(`https://rickandmortyapi.com/api/character${pageSearch}`);
+        document.body.appendChild(prevPageButton);
+        document.body.appendChild(nextPageButton); 
+        createGoToPageForm(chars);
+        charsPageRender(chars); 
+        history.replaceState(null, '', `?page=${document.body.querySelector('table').dataset.originApiPage}`)
+    }
+
+    const goToCharInfo = () => {
+        let currentUrlSearchParams = new URLSearchParams(pageSearch);
+        let currentCharPage = currentUrlSearchParams.get('page').toString();
+        let currentCharId = currentUrlSearchParams.get('id').toString(); 
+        let backButton = createBackButton(() => {
+        window.history.back()
+        }, 'back to list');
+        document.body.append(backButton);
+        renderClicksOnChars(`https://rickandmortyapi.com/api/character?page=${currentCharPage}`, currentCharId);
+        document.getElementById('goToPageForm')?.remove()
+    }
+
+    window.addEventListener('popstate', async function (){
+        let pageUrl = window.location;
+        let pageSearch = pageUrl.search;
+        let currentUrl = window.location.toString();
+        if(!currentUrl.includes('id')){
+        document.getElementById('backButton')?.remove();
+        document.body.querySelector('table')?.remove();
+        chars = await fetchCharsFromApiUrl(`https://rickandmortyapi.com/api/character${pageSearch}`);
+        document.body.appendChild(prevPageButton); 
+        document.body.appendChild(nextPageButton);
+        createGoToPageForm(chars) 
+        charsPageRender(chars); 
+       }
     })
 
-    //document.body.appendChild(prevPageButton);
-    
-    
-    // window.addEventListener('popstate', function (){
-    //    if(!window.location.toString().includes('id')){
-    //     console.log('no id')
-    //    }
-    // })
 
-    if (window.location.toString() === 'http://localhost:7777/?page=1' && !window.location.toString().includes('id') || window.location.toString() === 'http://localhost:7777/'){ // render main page
-        chars = await fetchCharsFromApiUrl('https://rickandmortyapi.com/api/character');
-        document.body.appendChild(nextPageButton); 
-        charsPageRender(chars);
-    } // main page render
-
-
-    if (window.location.toString().includes('page') && !window.location.toString().includes('id') && !window.location.toString().includes('?page=1')){ 
-        chars = await fetchCharsFromApiUrl(`https://rickandmortyapi.com/api/character${window.location.search}`);
-        document.body.appendChild(prevPageButton); 
-        if(Number((new URLSearchParams(window.location.search)).get('page')) !== (chars.info.pages)){
-            document.body.appendChild(nextPageButton); 
-        }
-        charsPageRender(chars);
-    } // others pages render
-
-
-    if (window.location.toString().includes('id')){ 
-        const currentCharPage = new URLSearchParams(window.location.toString()).get('http://localhost:7777/?page')
-        const currentCharId = new URLSearchParams(window.location.toString()).get('id');
-        
-        const backButton = createBackButton(() => {
-            backButtonAction((`https://rickandmortyapi.com/api/character${window.location.search}`))
-        }, 'back to list')
-        document.body.append(backButton);
-        renderClicksOnChars(`https://rickandmortyapi.com/api/character?page=${currentCharPage}`, currentCharId)
-    } // render characters
-    
+    if (!pageLocation.includes('id')){ 
+        goToCharsList();
+    } // render char pages
+    else {
+        goToCharInfo();
+    } // render characters info pages
 })()

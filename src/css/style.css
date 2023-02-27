@@ -1,0 +1,44 @@
+body {
+    background-image: linear-gradient(to right, white, rgb(153, 255, 153));
+    font-family: monospace;
+    font-family: Tahoma, Verdana, sans-serif;
+}
+
+#charInfoKeys {
+    color: rgb(101, 101, 101);
+}
+
+#charInfoValues {
+    color: rgb(0, 0, 0);
+}
+#charTableRow:hover {
+    text-shadow: #FC0 1px 0 10px;
+}
+#charTableRow {
+    cursor: pointer;
+}
+
+#backButton {
+    color: rgb(0, 0, 0);
+}
+
+#charImage {
+    border-radius: 5%;
+}
+
+.pagingButtons:hover {
+    text-shadow: #FC0 1px 0 10px;
+}
+
+#goToPageForm {
+    display: inline-block;
+    width: fit-content;
+}
+
+#inputFieldGoToPage {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+}
+#deadCharImage{
+    filter: grayscale(100%);
+}
